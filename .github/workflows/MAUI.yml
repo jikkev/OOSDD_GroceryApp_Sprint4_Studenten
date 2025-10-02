@@ -1,20 +1,22 @@
-name: MAUI Build
+name: MAUI Workflow
 
 on:
   push:
     branches:
       - main
-      - development
-      - Feature/*
+      - Development
+      - release/**
+      - Feature/**
   pull_request:
     branches:
       - main
-      - development
-      - Feature/*
-jobs:
-  build:
-    runs-on: windows-latest
+      - Development
+      - release/**
+      - Feature/**
 
+jobs:
+  test:
+    runs-on: ubuntu-latest
     steps:
       - name: Haal de repository op
         uses: actions/checkout@v4
@@ -25,10 +27,13 @@ jobs:
           dotnet-version: '8.0.x'
 
       - name: Installeer MAUI workloads
-        run: dotnet workload install maui
+        run: dotnet workload install maui-android
 
       - name: Herstel afhankelijkheden
         run: dotnet restore
 
       - name: Bouw de applicatie
-        run: dotnet build --configuration Release
+        run: dotnet build --configuration Release --no-restore
+
+      - name: Voer unit tests uit
+        run: dotnet test --configuration Release --no-restore --no-build --verbosity normal
