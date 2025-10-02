@@ -7,16 +7,24 @@
              x:DataType="vm:BoughtProductsViewModel"
              Title="Gekochte producten">
 
-    <Grid RowDefinitions="80,*" Padding="10">
+    <Grid RowDefinitions="80,Auto,*" Padding="10">
 
-        <Picker Grid.Column="0" Grid.Row="0" Margin="10,0,0,0"
-        Title="Klik op onderstaand pijltje om een product te selecteren:"
-        ItemsSource="{Binding Products}"
-        SelectedItem="{Binding SelectedProduct, Mode=TwoWay}"
-        ItemDisplayBinding="{Binding Name}"
-        BackgroundColor="{StaticResource Primary}"
-        TextColor="{StaticResource Secondary}" />
-        <CollectionView Grid.Row="1"
+        <Picker Grid.Row="0"
+                Title="Klik op onderstaand pijltje om een product te selecteren:"
+                ItemsSource="{Binding Products}"
+                SelectedItem="{Binding SelectedProduct, Mode=TwoWay}"
+                ItemDisplayBinding="{Binding Name}"
+                BackgroundColor="{StaticResource Primary}"
+                TextColor="{StaticResource Secondary}" />
+
+        <Label Grid.Row="1"
+               Text="{Binding InfoMessage}"
+               TextColor="White"
+               FontAttributes="Bold"
+               HorizontalOptions="Center"
+               Margin="0,5,0,5" />
+
+        <CollectionView Grid.Row="2"
                         ItemsSource="{Binding BoughtProductsList}">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="m:BoughtProducts">
