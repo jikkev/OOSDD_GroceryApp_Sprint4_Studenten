@@ -26,6 +26,10 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <!-- PLaats hier de header velden voor de tabel-->
+                    <Label Grid.Column="0" Text="#" VerticalOptions="Center" FontAttributes="Bold"/>
+                    <Label Grid.Column="1" Text="Product" VerticalOptions="Center" FontAttributes="Bold"/>
+                    <Label Grid.Column="2" Text="Aantal verkocht" VerticalOptions="Center" FontAttributes="Bold"/>
+                    <Label Grid.Column="3" Text="Aantal voorraad" VerticalOptions="Center" FontAttributes="Bold"/>
                 </Grid>
             </CollectionView.Header>
             <CollectionView.ItemTemplate>
