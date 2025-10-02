@@ -5,46 +5,29 @@
              xmlns:m="clr-namespace:Grocery.Core.Models;assembly=Grocery.Core"
              x:Class="Grocery.App.Views.BoughtProductsView"
              x:DataType="vm:BoughtProductsViewModel"
-             Title="BoughtProductsView">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="4*"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="80"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <Picker Grid.Column="0" Grid.Row="0" Margin="10,0,0,0" Title="Klik op onderstaand pijltje om een product te selecteren:"
+             Title="Gekochte producten">
+
+    <Grid RowDefinitions="80,*" Padding="10">
+
+        <Picker Grid.Column="0" Grid.Row="0" Margin="10,0,0,0"
+        Title="Klik op onderstaand pijltje om een product te selecteren:"
         ItemsSource="{Binding Products}"
-        SelectedItem="{Binding SelectedProduct, Mode=TwoWay}" 
-        SelectedIndexChanged="Picker_SelectedIndexChanged"
+        SelectedItem="{Binding SelectedProduct, Mode=TwoWay}"
+        ItemDisplayBinding="{Binding Name}"
         BackgroundColor="{StaticResource Primary}"
-            TextColor="{StaticResource Secondary}">
-        </Picker>
-        <Border Grid.Row="1" Grid.Column="0" Stroke="#C49B33" StrokeThickness="4" Padding="5" Margin="5" HorizontalOptions="Center">
-            <CollectionView ItemsSource="{Binding BoughtProductsList}" Margin="5" HorizontalOptions="End" SelectionMode="Single">
-                <CollectionView.ItemsLayout>
-                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="10" />
-                </CollectionView.ItemsLayout>
-                <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="m:BoughtProducts" >
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <Label Grid.Column="0" Text="{Binding Client.Name}" VerticalOptions="Center"/>
-                            <Label Grid.Column="1" Text="{Binding GroceryList.Name}" VerticalOptions="Center"/>
-                        </Grid>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-                <CollectionView.EmptyView>
-                    <ContentView>
-                        <Label Text="Er zijn geen verkochte producten" FontSize="18" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
-                    </ContentView>
-                </CollectionView.EmptyView>
-            </CollectionView>
-        </Border>
+        TextColor="{StaticResource Secondary}" />
+        <CollectionView Grid.Row="1"
+                        ItemsSource="{Binding BoughtProductsList}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="m:BoughtProducts">
+                    <Grid ColumnDefinitions="2*,*">
+                        <Label Grid.Column="0"
+                               Text="{Binding Client.Name}" />
+                        <Label Grid.Column="1"
+                               Text="{Binding GroceryList.Name}" />
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
     </Grid>
 </ContentPage>
