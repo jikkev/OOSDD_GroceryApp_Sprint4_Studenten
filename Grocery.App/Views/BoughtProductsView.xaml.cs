@@ -16,12 +16,8 @@ public partial class BoughtProductsView : ContentPage
 
     private void Picker_SelectedIndexChanged(object sender, EventArgs e)
     {
-        var picker = (Picker)sender;
-        int selectedIndex = picker.SelectedIndex;
-
-        if (selectedIndex != -1)
+        if (sender is Picker picker && picker.SelectedItem is Product product)
         {
-            Product product = picker.SelectedItem as Product;
             _viewModel.NewSelectedProduct(product);
         }
     }
