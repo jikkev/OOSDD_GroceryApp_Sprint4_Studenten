@@ -1,0 +1,34 @@
+name: MAUI Build
+
+on:
+  push:
+    branches:
+      - main
+      - development
+      - Feature/*
+  pull_request:
+    branches:
+      - main
+      - development
+      - Feature/*
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Haal de repository op
+        uses: actions/checkout@v4
+
+      - name: Installeer .NET SDK
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Installeer MAUI workloads
+        run: dotnet workload install maui
+
+      - name: Herstel afhankelijkheden
+        run: dotnet restore
+
+      - name: Bouw de applicatie
+        run: dotnet build --configuration Release
