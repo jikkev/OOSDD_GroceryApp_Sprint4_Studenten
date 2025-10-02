@@ -1,4 +1,5 @@
 using Grocery.Core.Helpers;
+using NUnit.Framework;
 
 namespace TestCore
 {
@@ -9,8 +10,7 @@ namespace TestCore
         {
         }
 
-
-        //Happy flow
+        // Happy flow - correcte combinaties
         [Test]
         public void TestPasswordHelperReturnsTrue()
         {
@@ -26,19 +26,32 @@ namespace TestCore
             Assert.IsTrue(PasswordHelper.VerifyPassword(password, passwordHash));
         }
 
-
-        //Unhappy flow
+        // Unhappy flow - verkeerde wachtwoorden
         [Test]
         public void TestPasswordHelperReturnsFalse()
         {
-            Assert.Pass(); //Zelf uitwerken
+            string wrongPassword = "foutwachtwoord";
+            string passwordHash = "sxnIcZdYt8wC8MYWcQVQjQ==.FKd5Z/jwxPv3a63lX+uvQ0+P7EuNYZybvkmdhbnkIHA=";
+            Assert.IsFalse(PasswordHelper.VerifyPassword(wrongPassword, passwordHash));
         }
 
-        [TestCase("user1", "IunRhDKa+fWo8+4/Qfj7Pg==.kDxZnUQHCZun6gLIE6d9oeULLRIuRmxmH2QKJv2IM08")]
-        [TestCase("user3", "sxnIcZdYt8wC8MYWcQVQjQ==.FKd5Z/jwxPv3a63lX+uvQ0+P7EuNYZybvkmdhbnkIHA")]
+        // Unhappy flow - verkeerde / corrupte hashes
+        [TestCase("user1", "IunRhDKa+fWo8+4/Qfj7Pg==.kDxZnUQHCZun6gLIE6d9oeULLRIuRmxmH2QKJv2IM08")] // mist '=' padding
+        [TestCase("user3", "sxnIcZdYt8wC8MYWcQVQjQ==.FKd5Z/jwxPv3a63lX+uvQ0+P7EuNYZybvkmdhbnkIHA")]   // mist '=' padding
+        [TestCase("user3", "ongeldigehashzonderpunt")]  // geen salt/hash scheiding
         public void TestPasswordHelperReturnsFalse(string password, string passwordHash)
         {
-            Assert.Fail(); //Zelf uitwerken zodat de test slaagt!
+            Assert.IsFalse(PasswordHelper.VerifyPassword(password, passwordHash));
+        }
+
+        
+        [TestCase("", "")]
+        [TestCase(null, null)]
+        [TestCase("user1", null)]
+        [TestCase(null, "IunRhDKa+fWo8+4/Qfj7Pg==.kDxZnUQHCZun6gLIE6d9oeULLRIuRmxmH2QKJv2IM08=")]
+        public void TestPasswordHelperReturnsFalse_OnEmptyOrNull(string? password, string? passwordHash)
+        {
+            Assert.IsFalse(PasswordHelper.VerifyPassword(password, passwordHash));
         }
     }
 }
