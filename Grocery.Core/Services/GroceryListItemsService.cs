@@ -51,10 +51,10 @@ namespace Grocery.Core.Services
 
         public List<BestSellingProducts> GetBestSellingProducts(int topX = 5)
         {
-            //Get all GroceryListItems
+            // Haal alle GroceryListItems op (elke aankoop van een product)
             var allItems = _groceriesRepository.GetAll();
 
-            //Group by ProductID and amount of sales 
+            // Groepeer per ProductId en tel het aantal verkopen (Amount optellen)
             var productSales = allItems
                 .GroupBy(item => item.ProductId)
                 .Select(group => new
@@ -66,10 +66,10 @@ namespace Grocery.Core.Services
                 .Take(topX)
                 .ToList();
 
-            //Get all product based on name and stock
+            // Haal alle producten op voor naam en voorraad
             var allProducts = _productRepository.GetAll().ToDictionary(p => p.Id);
 
-            //Make a list from BestSellingProducts
+            // Maak de lijst van BestSellingProducts
             var result = new List<BestSellingProducts>();
             int ranking = 1;
             foreach (var sale in productSales)
@@ -87,7 +87,6 @@ namespace Grocery.Core.Services
             }
 
             return result;
-            
         }
 
         private void FillService(List<GroceryListItem> groceryListItems)
